@@ -69,14 +69,18 @@
   <!-- <a href=""><i id="" class="fas fa-user"></i>Users</a> -->
   <a href=""><i id="" class="fas fa-discount"></i>Sale</a>
   <a href=""><i id="" class="fas fa-heart"></i> Wishlist</a>
-  
   <a href="">Sign out</a>
-  <input
+ 
+  <!-- <input
   type="text"
   id="search-bar"
   class="form-control"
   placeholder="search anything you can imagine"
-/>
+/> -->
+
+
+<a href="{% url 'search' %}" >Search</i></a>
+
 &nbsp;
 <a href="/" id="cart"><i id="scart" class="fas fa-shopping-cart"></i>Cart</a>
 <a href="/admin">Hello, {{ user.username }}</a>  
