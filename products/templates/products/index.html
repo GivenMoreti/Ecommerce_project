@@ -1,7 +1,7 @@
 {%extends "products/base.html" %}
 <style>
     .card-img-top{
-        height:80%;
+        height:70px;
     }
     #wishlist{
       background: pink;
@@ -17,7 +17,7 @@
           <!-- <div class="col"> -->
             <!-- card start -->
             {% for product in products %}
-            <div class="card" style="width: 18rem; margin: 2px;">
+            <div class="card" style="width: 18rem; margin: 2px; height: 25rem;">
              
                 <img src="{{product.image}}" class="card-img-top" alt="...">
                 <div class="card-body">
