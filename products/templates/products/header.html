@@ -1,4 +1,89 @@
+<style>
+  .container {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    margin: 2px;
+    padding: 10px;
+    display: flex;
+    /* flex-direction: ; */
+  }
+  .header {
+    padding: 10px;
+    margin: 2px;
+  }
+  .header,
+  a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
+    margin-right: 40px;
+    display: flex;
+    flex-direction: row;
+  }
+  .header,
+  a:hover {
+    color: orangered;
+  }
+  #search-bar {
+    width: 20%;
+  }
+  #search-bar:focus {
+    border-radius: 20px;
+    border: 1px solid orangered;
+  }
+  #heart {
+    margin: 5px;
+  }
+  #cart {
+    background: orangered;
+    color: white;
+    border-radius: 10px;
+    width: 10%;
+    padding-left: 2%;
+    align-items: center;
+    text-align: center;
+  }
+
+  #scart {
+    margin: 5px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+  }
+  #cart:hover {
+    color: orangered;
+    background: white;
+    border: 1px solid orangered;
+  }
+  #scart:hover {
+    color: orangered;
+  }
+</style>
+
 <div class="header">
-    <a href="/admin">Admin</a>
-   
+<a href="#">BuyMore</a>
+{%if user.is_authenticated %}
+  <a href="{%url 'home' %}">Home</a>
+ 
+  <a href="">Sell now</a>
+  <!-- <a href=""><i id="" class="fas fa-user"></i>Users</a> -->
+  <a href=""><i id="" class="fas fa-discount"></i>Sale</a>
+  <a href=""><i id="" class="fas fa-heart"></i> Wishlist</a>
+  
+  <a href="">Sign out</a>
+  <input
+  type="text"
+  id="search-bar"
+  class="form-control"
+  placeholder="search anything you can imagine"
+/>
+&nbsp;
+<a href="/" id="cart"><i id="scart" class="fas fa-shopping-cart"></i>Cart</a>
+<a href="/admin">Hello, {{ user.username }}</a>  
+{% else %}
+  <a href="">Sign in</a>
+  <a href="">Sign up</a>
+ 
+ 
+ {%endif%}
 </div>
