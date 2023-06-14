@@ -1,7 +1,6 @@
 <style>
   .container {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-
     margin: 2px;
     padding: 10px;
     display: flex;
@@ -59,35 +58,29 @@
     color: orangered;
   }
 </style>
-
 <div class="header">
 <a href="#">BuyMore</a>
-{%if user.is_authenticated %}
+{% if user.is_authenticated %}
   <a href="{%url 'home' %}">Home</a>
- 
   <a href="">Sell now</a>
   <!-- <a href=""><i id="" class="fas fa-user"></i>Users</a> -->
   <a href=""><i id="" class="fas fa-discount"></i>Sale</a>
   <a href=""><i id="" class="fas fa-heart"></i> Wishlist</a>
-  <a href="">Sign out</a>
- 
   <!-- <input
   type="text"
   id="search-bar"
   class="form-control"
   placeholder="search anything you can imagine"
 /> -->
-
-
 <a href="{% url 'search' %}" >Search</i></a>
-
 &nbsp;
-<a href="/" id="cart"><i id="scart" class="fas fa-shopping-cart"></i>Cart</a>
-<a href="/admin">Hello, {{ user.username }}</a>  
+<a href="/admin">Hello, {{ user.username }}</a>
+<a href="{% url 'logout'%}">Sign Out</a> 
+<a href="{% url 'cart' products.id}" id="cart"><i id="scart" class="fas fa-shopping-cart"></i>Cart</a>
 {% else %}
-  <a href="">Sign in</a>
+  <a href="{%url 'home' %}">Home</a>
+  <a href="{% url 'login'%}">Sign in</a>
   <a href="">Sign up</a>
- 
- 
+  <a href="{% url 'search' %}" >Search</i></a>
  {%endif%}
 </div>

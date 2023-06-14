@@ -1,0 +1,10 @@
+{% extends "products/base.html" %}
+{%block content%}
+    <div class="content-cart">
+        {% for c in carts%}
+        <li>{{c.cart}}</li>
+        <li>{{c.product}}</li>
+        <li>{{c.quantity}}</li>
+        {% endfor %}
+    </div>
+{% endblock%}

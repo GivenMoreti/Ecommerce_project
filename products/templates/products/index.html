@@ -3,6 +3,10 @@
     .card-img-top{
         height:80%;
     }
+    #wishlist{
+      background: pink;
+      padding: 10px;
+    }
 
 </style>
 {%block content %}
@@ -14,11 +18,14 @@
             <!-- card start -->
             {% for product in products %}
             <div class="card" style="width: 18rem; margin: 2px;">
+             
                 <img src="{{product.image}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{product.name}}</h5>
                   <p class="card-text">{{product.description}}</p>
+                  <a href="" id="wishlist"><i id="wishlist" class="fas fa-heart"></i></a>
                   <a href="#" class="btn btn-primary">Add to cart</a>
+                
                 </div>
               </div>
               {% endfor %}
@@ -28,6 +35,9 @@
     
         <!-- </div> -->
       </div>
+      <script>
+
+      </script>
 
 
 {%endblock%}
