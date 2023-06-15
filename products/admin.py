@@ -1,6 +1,6 @@
 from django.contrib import admin
 # Register your models here.
-from .models import Category,Product,UserProfile,Cart,Order,CartItem,Address,Payment,SaleItem,Sell
+from .models import Category,Product,UserProfile,Cart,Order,CartItem,Address,Payment,SaleItem,Sell,Delivery
 
 class CategoryModel(admin.ModelAdmin):
     list_display = ("name",)
@@ -27,8 +27,10 @@ class SaleItemModel(admin.ModelAdmin):
 class SellModel(admin.ModelAdmin):
     list_display = ("products","category","user","address","date_added")
 
+class DeliveryModel(admin.ModelAdmin):
+    list_display = ("order","order_date","delivery_date",)
 
-
+admin.site.register(Delivery,DeliveryModel)
 admin.site.register(Category,CategoryModel)
 admin.site.register(Product,ProductModel)
 admin.site.register(UserProfile,UserProfileModel)

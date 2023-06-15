@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.core.exceptions import ValidationError
 
 
 class Category(models.Model):
@@ -9,6 +10,11 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    # validate if category already exists
+    def clean(self):
+        existing_category = Category.objects.filter(name=self.name).exclude(pk=self.pk)
+        if existing_category.exists():
+            raise ValidationError("Category with this name already exists.") 
 
 class Product(models.Model):
     name = models.CharField(max_length=30)
@@ -26,17 +32,24 @@ class Product(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    # products = models.ForeignKey(Product, on_delete=models.CASCADE)
         # NOT NULL constraint failed: products_userprofile.products_id
-    # products = models.ManyToManyField(Product,related_name='products')
+    products = models.ManyToManyField(Product)
     
     def __str__(self):
         return f"{self.user.username} {self.products.name}" 
+# check if the user is in the database and raise error.
+    def clean(self):
+        existing_user = UserProfile.objects.filter(user=self.user).exclude(pk=self.pk)
+        if existing_user.exists():
+            raise ValidationError("A user with this name already exists.") 
 
     
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='CartItem')
+    # last_modified = models.DateTimeField(auto_now=True,default=None)
+
 
     def __str__(self):
         return f"cart for {self.user.username}"
@@ -45,7 +58,7 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveBigIntegerField()
+    quantity = models.PositiveIntegerField()
 
     def __str__(self):
         return f"items added to cart: {self.product.name}"
@@ -76,7 +89,7 @@ class Order(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order Number: {self.pk}"
+        return f"Order # {self.pk} for {self.user}"
 
 
 PAYMENT_METHODS = (
@@ -111,7 +124,7 @@ class SaleItem(models.Model):
 class Sell(models.Model):
     products = models.ForeignKey(Product, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -120,3 +133,17 @@ class Sell(models.Model):
     
     class Meta:
         ordering = ['date_added']
+
+
+from datetime import datetime, timedelta
+
+
+class Delivery(models.Model):
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,default=None)
+    order_date = models.DateTimeField(auto_now_add=True)
+    delivery_date = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # If it's a new instance
+            self.delivery_date = datetime.now() + timedelta(days=5)
+        super().save(*args, **kwargs)
