@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import Product, UserProfile, CartItem, Cart, Category
+from .models import Product, UserProfile, CartItem, Cart, Category,SaleItem
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
@@ -61,3 +61,11 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect("home")
+
+
+# discounted items
+def sale(request):
+    sale_items = SaleItem.objects.all()
+    
+    context = {"sale_items":sale_items}
+    return render(request,"products/sale.html",context)

@@ -1,0 +1,17 @@
+{% extends "products/base.html" %}
+{%block content%}
+{% for sale_item in sale_items %}
+<div class="card" style="width: 18rem; margin: 2px; height: 25rem;">
+ 
+    <img src="{{sale_item.product.image}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{sale_item.product.name}}</h5>
+      <p class="card-text">{{sale_item.Product.description}}</p>
+      <!-- <a href="" id="wishlist"><i id="wishlist" class="fas fa-heart"></i></a> -->
+      <a href="#" class="btn btn-primary">Add to cart</a>
+    
+    </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}

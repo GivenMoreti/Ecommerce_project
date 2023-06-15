@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
-# Create your models here.
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.name}"
+
 
 class Product(models.Model):
     name = models.CharField(max_length=30)
@@ -23,17 +24,16 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-    class Meta:
-        ordering = ['-date_added']
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     products = models.ForeignKey(Product, on_delete=models.CASCADE)
-
+        # NOT NULL constraint failed: products_userprofile.products_id
+    # products = models.ManyToManyField(Product,related_name='products')
+    
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} {self.products.name}" 
 
+    
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='CartItem')
@@ -65,6 +65,9 @@ class Address(models.Model):
     province = models.CharField(max_length=100, choices=PROVINCES)
     postal_code = models.CharField(max_length=5)
 
+    def __str__(self):
+        return f"{self.city} {self.postal_code}"
+
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -90,3 +93,30 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment for Order Number{self.order.pk}"
+
+
+class SaleItem(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)  # 10 % discount
+    code = models.CharField(max_length=10)
+    # date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Discount applied on these items {self.products}"
+
+    class Meta:
+        ordering = ['-products']
+
+
+class Sell(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} is selling{self.products} with {self.category}"
+    
+    class Meta:
+        ordering = ['date_added']
