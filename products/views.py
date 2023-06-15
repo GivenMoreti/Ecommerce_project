@@ -31,10 +31,9 @@ def search(request):
     return render(request, "products/search_results.html", context)
 
 
-def cart(request, id):
-    carts = CartItem.objects.filter(id=id)
-
-    context = {"carts": carts}
+def cart(request):
+    cart_items = CartItem.objects.all()
+    context = {"cart_items": cart_items}
     return render(request, "products/cart.html", context)
 
 

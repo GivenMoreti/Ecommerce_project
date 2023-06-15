@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -12,9 +13,11 @@ class Category(models.Model):
 
     # validate if category already exists
     def clean(self):
-        existing_category = Category.objects.filter(name=self.name).exclude(pk=self.pk)
+        existing_category = Category.objects.filter(
+            name=self.name).exclude(pk=self.pk)
         if existing_category.exists():
-            raise ValidationError("Category with this name already exists.") 
+            raise ValidationError("Category with this name already exists.")
+
 
 class Product(models.Model):
     name = models.CharField(max_length=30)
@@ -30,26 +33,28 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # products = models.ForeignKey(Product, on_delete=models.CASCADE)
-        # NOT NULL constraint failed: products_userprofile.products_id
+    # NOT NULL constraint failed: products_userprofile.products_id
     products = models.ManyToManyField(Product)
-    
-    def __str__(self):
-        return f"{self.user.username} {self.products.name}" 
-# check if the user is in the database and raise error.
-    def clean(self):
-        existing_user = UserProfile.objects.filter(user=self.user).exclude(pk=self.pk)
-        if existing_user.exists():
-            raise ValidationError("A user with this name already exists.") 
 
-    
+    def __str__(self):
+        return f"{self.user.username} {self.products.name}"
+# check if the user is in the database and raise error.
+
+    def clean(self):
+        existing_user = UserProfile.objects.filter(
+            user=self.user).exclude(pk=self.pk)
+        if existing_user.exists():
+            raise ValidationError("A user with this name already exists.")
+
+
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='CartItem')
     # last_modified = models.DateTimeField(auto_now=True,default=None)
-
 
     def __str__(self):
         return f"cart for {self.user.username}"
@@ -130,16 +135,13 @@ class Sell(models.Model):
 
     def __str__(self):
         return f"{self.user} is selling{self.products} with {self.category}"
-    
+
     class Meta:
         ordering = ['date_added']
 
 
-from datetime import datetime, timedelta
-
-
 class Delivery(models.Model):
-    order = models.ForeignKey(Order,on_delete=models.CASCADE,default=None)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None)
     order_date = models.DateTimeField(auto_now_add=True)
     delivery_date = models.DateTimeField()
 

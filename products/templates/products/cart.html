@@ -1,10 +1,32 @@
 {% extends "products/base.html" %}
 {%block content%}
+
     <div class="content-cart">
-        {% for c in carts%}
-        <li>{{c.cart}}</li>
-        <li>{{c.product}}</li>
-        <li>{{c.quantity}}</li>
-        {% endfor %}
+      
+     <h1>Items in the cart</h1>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Quantity</th>
+                <th>action</th>
+        
+              </tr>
+            </thead>
+            <tbody>
+                {% for c in cart_items%}
+              <tr>
+                <th scope="row">1</th>
+                <td>{{c.product.name}}  </td>
+                <td>{{c.quantity}}</td>
+                <td> <a href="" class="btn btn-danger">x</a> <a href="" class="btn btn-primary">+</a><a href="" class="btn btn-primary">-</a></td>
+             
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        
     </div>
+   
 {% endblock%}
