@@ -20,7 +20,24 @@
                 <th scope="row">1</th>
                 <td>{{c.product.name}}  </td>
                 <td>{{c.quantity}}</td>
-                <td> <a href="" class="btn btn-danger">x</a> <a href="" class="btn btn-primary">+</a><a href="" class="btn btn-primary">-</a></td>
+                <td> 
+                
+                    <form method="POST" action="{% url 'update_cd' pk.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="increase">
+                        <button type="submit">+</button>
+                    </form>
+                    
+                    <form method="POST" action="{% url 'update_cd' pk.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="decrease">
+                        <button type="submit">-</button>
+                    </form>
+                
+                
+                
+                
+                </td>
              
               </tr>
               {% endfor %}

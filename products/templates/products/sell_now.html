@@ -1,28 +1,27 @@
 {% extends "products/base.html" %} {%block content%}
+
+{% if user.is_authenticated %}
 <div class="sell_now">
-  
-    <h1>Start selling on our site</h1>
+  <h1>Start selling on our site</h1>
   <p>Register your account,we will take care of the rest for you.</p>
-  
+
   <form action="{% url 'sell_now' %}" method="post">
-    <input type="email" placeholder="email" name="email" required />
-    <input type="tel" placeholder="cellphone" required />
-    <input type="text" placeholder="first name" name="fname" required />
-    <input type="text" placeholder="last name" name="lname" required />
-    <span for="">When would you like to start selling?</span>
-    <input type="datetime-local" />
-    <input type="password" placeholder="password" name="password" required />
-    <span>Product category</span>
-    <select name="" id="">
-      <option value="">Cellular</option>
-      <option value="">Electrical</option>
-      <option value="">Furniture</option>
-    </select>
-    <span> Ts and Cs.</span
-    >
-    <input type="checkbox" name="agree" id="" />
-    <input type="submit" value="Register" />
+    {% csrf_token %} {{ form.as_p }} <input type="checkbox" class="form-check"
+    agree" id="" />
+    <input type="submit" class="btn btn-success" value="Register" />
   </form>
 </div>
+{%else%}
+<div class="user_details">
+  <h1>Add your user details now</h1>
+  <form action="{% url 'sell_now' %}" method="post">
+    {% csrf_token %} 
+    
+    {{ form_two.as_p }}
+    <input type="submit" class="btn btn-primary" value="Start selling" />
+
+  </form>
+</div>
+{%endif%}
 
 {% endblock %}
