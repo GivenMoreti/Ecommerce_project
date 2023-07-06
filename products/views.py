@@ -15,7 +15,13 @@ from .forms import RegistrationForm
 def home(request):
     products = Product.objects.all()
     categories = Category.objects.all()
-    context = {'products': products, "categories": categories}
+    sale_items = SaleItem.objects.all()
+    context = {'products': products, 
+               "categories": categories,
+               "sale_items":sale_items
+               
+               
+               }
     
     return render(request, "products/index.html", context)
 
@@ -39,27 +45,6 @@ def cart(request):
     cart_items = CartItem.objects.all()
     context = {"cart_items": cart_items}
     return render(request, "products/cart.html", context)
-
-
-# cart functionality
-# increase and decrease items
-
-
-def update_card(request, pk):
-    cart_item = get_object_or_404(CartItem, id=pk)
-    action = request.POST.get('action')
-
-    if action == 'increase':
-        cart_item.quantity += 1
-    elif action == 'decrease':
-        if cart_item.quantity > 1:
-            cart_item.quantity -= 1
-        else:
-            cart_item.delete()
-
-    cart_item.save()
-    return HttpResponseRedirect('/cart')  # Redirect back to the cart page
-
 
 def login_user(request):
     if request.method == 'POST':
