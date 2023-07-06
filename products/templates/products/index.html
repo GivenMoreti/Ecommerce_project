@@ -15,12 +15,9 @@
   .card-img {
     height:10rem;
     object-fit:contain;
+    border-radius: 5px;
   }
-  .left-bar{
-    width: 100%;
-  
-  
-  }
+ 
   .categories{
     padding-left: 10px;
   }
@@ -37,8 +34,9 @@
 </style>
 <div class="content">
   <div class="left-bar">
-    <h1>Categories</h1>
+    
     <div class="categories">
+      <h1>Categories</h1>
       {% for c in categories%}
 
       <a href="#">{{c.name}}</a>
