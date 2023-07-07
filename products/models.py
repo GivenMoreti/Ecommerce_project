@@ -13,7 +13,7 @@ class Category(models.Model):
     
     # ordering s and renaming categorys in admin to categories
     class Meta:
-        ordering = ("name",)
+        ordering = ["name",]
         verbose_name_plural ='Categories'
     
 
@@ -41,9 +41,12 @@ class Product(models.Model):
     sold_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True) 
     # discount = models.PositiveIntegerField()
     # size eg 2kg
-    
+    # gender
+
     class Meta:
-        ordering = ('date_added',)
+        ordering = ['category',]
+
+
 # add a method for product discount.
     def discount(self, discount_percentage):
         discount_amount = self.price * (discount_percentage / 100)

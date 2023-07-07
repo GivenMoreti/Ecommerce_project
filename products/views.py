@@ -13,22 +13,21 @@ from .forms import RegistrationForm
 
 
 def home(request):
-    products = Product.objects.filter(is_sold=False)[0:6]
+    # display all products that arent sold.
+    products = Product.objects.filter(is_sold=False)
     categories = Category.objects.all()
-   
   
     context = {
                 'products': products,
                "categories": categories,
-              
-               }
-
+            }
     return render(request, "products/index.html", context)
 
-#details view
-
-def details(request):
-    pass
+#when you click on an item it must open the details page of that item.
+def details(request,pk):
+    product = get_object_or_404(Product,pk=pk)
+    context = {"product":product}
+    return render(request,"products/detail.html",context)
 
 
 
