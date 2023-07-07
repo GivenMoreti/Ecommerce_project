@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import Product, UserProfile, CartItem, Cart, Category, SaleItem, Sell
+from .models import About, Product, UserProfile, CartItem, Cart, Category, SaleItem, Sell
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
@@ -16,20 +16,20 @@ def home(request):
     # display all products that arent sold.
     products = Product.objects.filter(is_sold=False)
     categories = Category.objects.all()
-  
+
     context = {
-                'products': products,
-               "categories": categories,
-            }
+        'products': products,
+        "categories": categories,
+    }
     return render(request, "products/index.html", context)
 
-#when you click on an item it must open the details page of that item.
-def details(request,pk):
-    product = get_object_or_404(Product,pk=pk)
-    context = {"product":product}
-    return render(request,"products/detail.html",context)
+# when you click on an item it must open the details page of that item.
 
 
+def details(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    context = {"product": product}
+    return render(request, "products/detail.html", context)
 
 
 # implement search products
@@ -40,7 +40,10 @@ def search(request):
     results = []
     if form.is_valid():
         query = form.cleaned_data['query']
-        results = Product.objects.filter(name__icontains=query)
+        # can search by Product,Category,user(seller),description
+        results = Product.objects.filter(
+            name__icontains=query) or Category.objects.filter(
+            name__icontains=query)
 
     context = {
         'form': form, "results": results
@@ -130,4 +133,8 @@ def register_user(request):
     return render(request, 'products/register.html', {'form': form})
 
 
-# displayt all the categories on the left pane
+# about page
+def about(request):
+    about = About.objects.all()
+    
+    return render(request,"products/about.html",{"about":about})

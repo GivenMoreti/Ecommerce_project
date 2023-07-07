@@ -1,0 +1,14 @@
+{%extends "products/base.html" %}
+
+
+
+{%block content%}
+
+<div class="container">
+
+    {% for a in about%}
+    <p>{{a.details}}</p>
+    <p>Development date {{a.date_added}}</p>
+    {% endfor %}
+</div>
+{%endblock%}

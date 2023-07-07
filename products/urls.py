@@ -16,6 +16,7 @@ urlpatterns = [
     path('sell_now/',views.sell,name="sell_now"),
     path('register/', views.register_user, name='register'),
     path("details/<int:pk>/",views.details,name="details"),
+    path("about/",views.about,name="about")
 
 
 

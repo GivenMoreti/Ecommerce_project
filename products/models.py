@@ -173,3 +173,9 @@ class Delivery(models.Model):
         if not self.pk:  # If it's a new instance
             self.delivery_date = datetime.now() + timedelta(days=5)
         super().save(*args, **kwargs)
+
+# about Global
+class About(models.Model):
+    details = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_editted = models.DateTimeField(auto_now=True)
