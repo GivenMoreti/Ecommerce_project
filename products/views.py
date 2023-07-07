@@ -15,7 +15,7 @@ from .forms import RegistrationForm
 def home(request):
     # display all products that arent sold.
     products = Product.objects.filter(is_sold=False)
-    categories = Category.objects.all()
+    categories = Category.objects.all().order_by("name")[0:12]
 
     context = {
         'products': products,
@@ -24,17 +24,17 @@ def home(request):
     return render(request, "products/index.html", context)
 
 # when you click on an item it must open the details page of that item.
-
-
 def details(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    context = {"product": product}
+    product_details = get_object_or_404(Product, pk=pk)
+    # related items to be displayed on details page where category is same
+    related_products = Product.objects.filter(
+        category=product_details.category, is_sold=False).exclude(pk=pk)[0:2]
+    context = {"product_details": product_details,
+               "related_products": related_products}
     return render(request, "products/detail.html", context)
 
 
 # implement search products
-
-
 def search(request):
     form = SearchForm(request.GET)
     results = []
@@ -136,5 +136,5 @@ def register_user(request):
 # about page
 def about(request):
     about = About.objects.all()
-    
-    return render(request,"products/about.html",{"about":about})
+
+    return render(request, "products/about.html", {"about": about})

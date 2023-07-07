@@ -1,20 +1,63 @@
-{%extends "products/base.html" %} {% block title%} {{product.name}} {%endblock%} {% block content %}
+{%extends "products/base.html" %} {% block title%} {{product.name}} {%endblock%}
+{% block content %}
 <div class="grid grid-cols-5 gap-4">
   <div class="col-span-3">
-    <img src="{{product.image}}" class="rounded=xl" />
+    <img src="{{product_details.image}}" class="rounded=xl" />
   </div>
   <div class="cols-span-3 p-6 bg-grey-100 rounded-xl">
-    <h1 class="mb-6 text-2xl">{{product.name}}</h1>
-    <h3 class="text-red-500 text-2xl">R{{product.price}}</h3>
-    <p class="text-blue-500 text-2xl">{{product.description}}</p>
-    <p class="text-gray-500 text-2xl">In stock: {{product.quantity}}</p>
-    <p class="text-gray-500 text-2xl">Added: {{product.date_added}}</p>
-    <p class="text-gray-500 text-xl">Category of {{product.category}}</p>
-    <p class="text-gray-400 text-2xl">Sold by: {{product.sold_by}}</p>
-    <a href="#" class="btn btn-primary">Add to cart</a>
+    <h1 class="mb-6 text-2xl">{{product_details.name}}</h1>
+    <h3 class="text-red-500 text-xl">R{{product_details.price}}</h3>
+    <p class="text-blue-500 text-xl">{{product_details.description}}</p>
+    <p class="text-gray-500 text-xl">In stock: {{product_details.quantity}}</p>
+    <p class="text-gray-500 text-xl">Added: {{product_details.date_added}}</p>
+    <p class="text-gray-500 text-xl">
+      Category of {{product_details.category}}
+    </p>
+    <p class="text-gray-400 text-xl">Sold by: {{product_details.sold_by}}</p>
+    <a href="#" class="btn btn-primary">Cart</a>
     <a href="#" class="btn btn-warning">Edit</a>
     <a href="#" class="btn btn-danger">Remove</a>
   </div>
 </div>
 
+<!-- related products -->
+{% if related_product %}
+<div class="mt-6 px-6 py-6 bg-grey-100 rounded-xl">
+  <h2 class="text-blue-500 m-auto">Also bought together</h2>
+  <div class="grid grid-cols-5 gap-4">
+    {% for related_product in related_products%}
+    <div>
+      <a href="{% url 'details' product.id %}">
+        <div class="col-span-3">
+          <img src="{{related_product.image}}" class="rounded=xl" />
+        </div>
+        <div class="cols-span-3 p-6 bg-grey-100 rounded-xl">
+          <h1 class="mb-6 text-2xl">{{related_product.name}}</h1>
+          <h3 class="text-red-500 text-xl">R{{related_product.price}}</h3>
+          <p class="text-blue-500 text-xl">{{related_product.description}}</p>
+          <p class="text-gray-500 text-xl">
+            In stock: {{related_product.quantity}}
+          </p>
+          <p class="text-gray-500 text-xl">
+            Added: {{related_product.date_added}}
+          </p>
+          <p class="text-gray-500 text-xl">
+            Category of {{related_product.category}}
+          </p>
+          <p class="text-gray-400 text-xl">
+            Sold by: {{related_product.sold_by}}
+          </p>
+          <a href="#" class="btn btn-primary">Cart</a>
+          <a href="#" class="btn btn-warning">Edit</a>
+          <a href="#" class="btn btn-danger">Remove</a>
+        </div>
+      </a>
+    </div>
+    {%endfor%} {% else %}
+    <div class="mt-6 px-6 py-6 bg-grey-200 rounded-xl">
+      <h2 class="text-blue-500 m-auto">No related products</h2>
+    </div>
+    {%endif%}
+  </div>
+</div>
 {% endblock%}
