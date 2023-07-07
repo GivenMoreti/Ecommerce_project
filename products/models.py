@@ -10,6 +10,12 @@ class Category(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+    # ordering s and renaming categorys in admin to categories
+    class Meta:
+        ordering = ("name",)
+        verbose_name_plural ='Categories'
+    
 
     # validate if category already exists
     def clean(self):
@@ -24,18 +30,21 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
+    # replace with proper image files not links
+    # image = models.ImageField(upload_to='product_images',blank=True,null=True)
     image = models.CharField(max_length=8000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # include timesence in index.html
-    is_sold = models.BooleanField(default=False,null=True)
+    is_sold = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     sold_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True) 
     # discount = models.PositiveIntegerField()
+    # size eg 2kg
     
     class Meta:
-        ordering = ('name',)
-
+        ordering = ('date_added',)
+# add a method for product discount.
     def discount(self, discount_percentage):
         discount_amount = self.price * (discount_percentage / 100)
         discounted_price = self.price - discount_amount

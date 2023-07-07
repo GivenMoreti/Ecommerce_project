@@ -13,14 +13,14 @@ from .forms import RegistrationForm
 
 
 def home(request):
-    products = Product.objects.filter(is_sold=False)
+    products = Product.objects.filter(is_sold=False)[0:6]
     categories = Category.objects.all()
-    sale_items = SaleItem.objects.all()
-    # discount = Product.discount(1,10)
-    # print(discount)
-    context = {'products': products,
+   
+  
+    context = {
+                'products': products,
                "categories": categories,
-               "sale_items": sale_items
+              
                }
 
     return render(request, "products/index.html", context)
