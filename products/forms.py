@@ -25,6 +25,26 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder':"username",
+        'class':'w-full py-4 px-6 rounded-xl'
+    }))
+
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        'placeholder':"Email",
+        'class':'w-full py-4 px-6 rounded-xl'
+    }))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder':"Enter password",
+        'class':'w-full py-4 px-6 rounded-xl'
+    }))
+
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder':"Confirm password",
+        'class':'w-full py-4 px-6 rounded-xl'
+    }))
+
+
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
