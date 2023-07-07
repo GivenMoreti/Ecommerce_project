@@ -1,9 +1,8 @@
-{%extends "products/base.html" %}
-
-{%block content %}
+{%extends "products/base.html" %} {%block content %}
 <style>
   * {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
   }
 </style>
 
@@ -18,7 +17,7 @@
 <div class="grid grid-cols-5 gap-1 mt-3">
   {% for product in products %}
   <div>
-    <a href="#">
+    <a href="{% url 'details' product.id %}">
       <img src="{{product.image}}" class="h-1/3 rounded-t-xl" alt="..." />
       <div class="p-6 bg-grey-100 rounded-b-xl">
         <h3 class="text-red-500">R{{product.price}}</h3>
@@ -43,16 +42,10 @@
       <a href="#">
         <p class="text-gray-500">{{category.name}}</p>
         <p class="text-gray-500">{{category.product.count}}</p>
-
       </a>
     </div>
     {% endfor%}
-
-
   </div>
 
+  {%endblock%}
 </div>
-</div>
-
-
-{%endblock%}

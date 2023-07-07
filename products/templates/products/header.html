@@ -1,5 +1,5 @@
 <nav class="py-6 px-6 flex justify-between items-center border-b border-grey-100">
-  <a href="{%url 'home' %}" class=" text-xl font-bold text-orange-600" >Ecommerce</a>
+  <a href="{% url 'home' %}" class=" text-xl font-bold text-orange-600" >Ecommerce</a>
   {% if user.is_authenticated %}
   <div class="space-x-6">
      <a href="{% url 'search' %}">Search</i></a>

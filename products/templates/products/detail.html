@@ -1,4 +1,31 @@
-{%extends "products/base.html %}
-{% block content %}
+{%extends "products/base.html" %} 
+
+{% block title%}
+{{product.name}}
+{% endblock%}
+
+{% block content %} 
+<div class="grid grid-cols-5 gap-4">
+
+    <div class="col-span-3">
+        <img src="{{product.image}}" class="rounded=xl"/>
+    </div>
+    <div class="cols-span-3 p-6 bg-grey-100 rounded-xl">
+        <h1 class="mb-6 text-2xl" >{{product.name}}</h1>
+        <h3 class="text-red-500 text-2xl">R{{product.price}}</h3>
+        <p class="text-blue-500 text-2xl">{{product.description}}</p>
+        <p class="text-gray-500 text-2xl">In stock: {{product.quantity}}</p>
+        <p class="text-gray-400 text-2xl">sold by: {{product.sold_by}}</p>
+        <p class="text-gray-500 text-2xl">Added: {{product.date_added}}</p>
+        <p class="text-gray-500 text-xl">Category of {{product.category}}</p>
+        
+        <a href="#" class="btn btn-primary">Add to cart</a>
+        <a href="#" class="btn btn-warning">Edit</a>
+        <a href="#" class="btn btn-danger">Remove</a>
+
+
+
+    </div>
+</div>
 
 {% endblock%}
