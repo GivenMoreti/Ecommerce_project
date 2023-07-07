@@ -1,6 +1,6 @@
 from django import forms
 from .models import Sell,UserProfile
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 class SearchForm(forms.Form):
     query = forms.CharField(max_length=100)
@@ -17,7 +17,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = "__all__"
 
-
+# user registrations form
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -51,3 +51,17 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
+
+
+# user login form.
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder':"username",
+        'class':'w-full py-4 px-6 rounded-xl'
+    }))
+
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder':"Enter password",
+        'class':'w-full py-4 px-6 rounded-xl'
+    }))
