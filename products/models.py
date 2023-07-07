@@ -27,8 +27,20 @@ class Product(models.Model):
     image = models.CharField(max_length=8000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # include timesence in index.html
+    is_sold = models.BooleanField(default=False,null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
+    sold_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True) 
+    # discount = models.PositiveIntegerField()
+    
+    class Meta:
+        ordering = ('name',)
+
+    def discount(self, discount_percentage):
+        discount_amount = self.price * (discount_percentage / 100)
+        discounted_price = self.price - discount_amount
+        return discounted_price
+    
 
     def __str__(self):
         return f"{self.name}"

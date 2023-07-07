@@ -7,7 +7,7 @@
 
   <form action="{% url 'sell_now' %}" method="post">
     {% csrf_token %} {{ form.as_p }} <input type="checkbox" class="form-check"
-    agree" id="" />
+    agree" id="" required/>
     <input type="submit" class="btn btn-success" value="Register" />
   </form>
 </div>

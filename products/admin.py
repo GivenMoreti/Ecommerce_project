@@ -6,7 +6,7 @@ class CategoryModel(admin.ModelAdmin):
     list_display = ("name",)
 
 class ProductModel(admin.ModelAdmin):
-    list_display = ("name","description","price","quantity")
+    list_display = ("name","description","price","quantity","sold_by")
 
 class CartModel(admin.ModelAdmin):
     list_display = ("user",)

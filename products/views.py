@@ -13,17 +13,25 @@ from .forms import RegistrationForm
 
 
 def home(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(is_sold=False)
     categories = Category.objects.all()
     sale_items = SaleItem.objects.all()
-    context = {'products': products, 
+    # discount = Product.discount(1,10)
+    # print(discount)
+    context = {'products': products,
                "categories": categories,
-               "sale_items":sale_items
-               
-               
+               "sale_items": sale_items
                }
-    
+
     return render(request, "products/index.html", context)
+
+#details view
+
+def details(request):
+    pass
+
+
+
 
 # implement search products
 
@@ -45,6 +53,7 @@ def cart(request):
     cart_items = CartItem.objects.all()
     context = {"cart_items": cart_items}
     return render(request, "products/cart.html", context)
+
 
 def login_user(request):
     if request.method == 'POST':
